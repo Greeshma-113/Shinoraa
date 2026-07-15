@@ -21,7 +21,7 @@ async function connectDB() {
   }
 
   try {
-    await mongoose.connect(mongoUri);
+    await mongoose.connect(mongoUri, { dbName: 'shinoraa' });
     console.log('🌸 MongoDB Connected Successfully! 🌸');
     await seedDatabase();
   } catch (err) {
