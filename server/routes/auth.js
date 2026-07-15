@@ -15,6 +15,19 @@ function generateInviteCode() {
 function generateOTP() {
   return Math.floor(100000 + Math.random() * 900000).toString();
 }
+// STATUS ROUTE
+router.get('/status', async (req, res) => {
+  try {
+    const mongoose = require('mongoose');
+    res.status(200).json({
+      isMock: db.getIsMock(),
+      dbName: mongoose.connection.name || 'none',
+      connected: mongoose.connection.readyState === 1
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 
 // SIGNUP ROUTE
 router.post('/signup', async (req, res) => {
