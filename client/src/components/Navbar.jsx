@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleTheme, logout } from '../store/authSlice';
-import { Home, Image, Calendar, MessageCircle, Gamepad2, User, Settings, Sun, Moon, LogOut } from 'lucide-react';
+import { Home, Image, Calendar, MessageCircle, Gamepad2, User, Settings, Sun, Moon, LogOut, BookOpen, Gift, GraduationCap } from 'lucide-react';
 
 export default function Navbar() {
   const location = useLocation();
@@ -15,6 +15,9 @@ export default function Navbar() {
     { path: '/', label: 'Home', icon: Home },
     { path: '/memories', label: 'Memories', icon: Image },
     { path: '/planner', label: 'Planner', icon: Calendar },
+    { path: '/journal', label: 'Journal', icon: BookOpen },
+    { path: '/placements', label: 'Placement Hub', icon: GraduationCap },
+    { path: '/surprises', label: 'Surprise Box', icon: Gift },
     { path: '/chat', label: 'Chat', icon: MessageCircle },
     { path: '/entertainment', label: 'Arcade', icon: Gamepad2 },
     { path: '/profile', label: 'Profile', icon: User },
@@ -42,7 +45,7 @@ export default function Navbar() {
       </Link>
 
       {/* Nav links */}
-      <div className="hidden md:flex items-center gap-1">
+      <div className="hidden lg:flex items-center gap-0.5">
         {links.map((link) => {
           const Icon = link.icon;
           const isActive = location.pathname === link.path;
@@ -50,13 +53,13 @@ export default function Navbar() {
             <Link
               key={link.path}
               to={link.path}
-              className={`flex items-center gap-1.5 px-4 py-2 rounded-2xl transition-all duration-200 text-sm font-semibold ${
+              className={`flex items-center gap-1 px-2 py-1.5 rounded-xl transition-all duration-200 text-xs font-semibold whitespace-nowrap ${
                 isActive
                   ? 'bg-sakura-100/70 dark:bg-sakura-900/30 text-sakura-600 dark:text-cozy-darkAccent'
                   : 'text-slate-600 dark:text-slate-300 hover:bg-pink-50/50 dark:hover:bg-slate-800/40 hover:text-sakura-500'
               }`}
             >
-              <Icon size={16} />
+              <Icon size={13} />
               <span>{link.label}</span>
             </Link>
           );

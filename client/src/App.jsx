@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Provider, useSelector } from 'react-redux';
 import { store } from './store';
-import SakuraOverlay from './components/SakuraOverlay';
+import BackgroundGarden from './components/BackgroundGarden';
 import MusicPlayer from './components/MusicPlayer';
 import SplashLoader from './components/SplashLoader';
 import Navbar from './components/Navbar';
@@ -16,6 +16,9 @@ import Chat from './pages/Chat';
 import Entertainment from './pages/Entertainment';
 import Profile from './pages/Profile';
 import Settings from './pages/Settings';
+import Journal from './pages/Journal';
+import SurpriseBox from './pages/SurpriseBox';
+import PlacementHub from './pages/PlacementHub';
 
 function MainAppShell() {
   const { token, theme } = useSelector((state) => state.auth);
@@ -36,8 +39,8 @@ function MainAppShell() {
       {/* Animated Opening Splash Screen */}
       {showSplash && <SplashLoader onComplete={() => setShowSplash(false)} />}
 
-      {/* Floating Sakura animations */}
-      <SakuraOverlay />
+      {/* Layered Animated Garden Background */}
+      <BackgroundGarden />
       
       {/* Shared music player */}
       <MusicPlayer />
@@ -65,6 +68,18 @@ function MainAppShell() {
           <Route 
             path="/planner" 
             element={token ? <Planner /> : <Navigate to="/login" replace />} 
+          />
+          <Route 
+            path="/journal" 
+            element={token ? <Journal /> : <Navigate to="/login" replace />} 
+          />
+          <Route 
+            path="/placements" 
+            element={token ? <PlacementHub /> : <Navigate to="/login" replace />} 
+          />
+          <Route 
+            path="/surprises" 
+            element={token ? <SurpriseBox /> : <Navigate to="/login" replace />} 
           />
           <Route 
             path="/chat" 

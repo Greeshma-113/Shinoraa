@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateRelationship, updateUserProfile } from '../store/authSlice';
-import { Heart, Calendar, Smile, Sun, Sunset, AlertCircle, Sparkles, RefreshCw, Send } from 'lucide-react';
+import { Heart, Calendar, Smile, Sun, Sunset, AlertCircle, Sparkles, RefreshCw, Send, Edit2 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 const MOODS = [
@@ -35,12 +35,38 @@ export default function Home() {
   const [isFortuneBroken, setIsFortuneBroken] = useState(false);
   const [stickyInput, setStickyInput] = useState('');
   const [stickyNotes, setStickyNotes] = useState([]);
+  
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [newDate, setNewDate] = useState(relationship?.startDate ? new Date(relationship.startDate).toISOString().split('T')[0] : '');
 
   // Time ticker
   useEffect(() => {
     const timer = setInterval(() => setTime(new Date()), 1000);
     return () => clearInterval(timer);
   }, []);
+
+  const handleSaveDate = async (e) => {
+    e.preventDefault();
+    if (!newDate) return;
+    try {
+      const res = await fetch('/api/relationship', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ startDate: newDate })
+      });
+      const data = await res.json();
+      if (res.ok) {
+        dispatch(updateRelationship(data));
+        setShowDatePicker(false);
+        confetti({ particleCount: 50, spread: 60 });
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   // Fetch local sticky notes on load
   useEffect(() => {
@@ -280,8 +306,15 @@ export default function Home() {
         {/* Relationship Counter Widget */}
         <div className="glass-panel p-6 border-pink-200/50 dark:border-slate-800 relative overflow-hidden text-center flex flex-col items-center justify-center bg-gradient-to-br from-white/70 to-pink-50/50 dark:from-[#1E1B2B]/70 dark:to-sakura-900/10">
           <div className="absolute top-2 right-2 animate-spin-slow text-sakura-400 opacity-20">🌸</div>
-          <h3 className="font-kosugi text-sm font-bold text-slate-500 uppercase tracking-widest mb-4">
+          <h3 className="font-kosugi text-sm font-bold text-slate-500 uppercase tracking-widest mb-4 flex items-center justify-center gap-1.5">
             We have been together for 🌸
+            <button 
+              onClick={() => setShowDatePicker(true)}
+              className="p-1 hover:bg-sakura-50 dark:hover:bg-slate-800 rounded-lg text-sakura-500 transition-colors"
+              title="Edit Anniversary Date"
+            >
+              <Edit2 size={12} />
+            </button>
           </h3>
 
           <div className="flex items-center gap-4 md:gap-6 justify-center">
@@ -407,6 +440,46 @@ export default function Home() {
         </div>
 
       </div>
+
+      {/* Date Picker Modal */}
+      {showDatePicker && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm animate-fade-in text-left">
+          <div className="glass-panel p-6 w-full max-w-sm border-pink-200 dark:border-slate-800 shadow-2xl relative bg-white dark:bg-[#1E1B2B]">
+            <h3 className="font-kosugi font-bold text-base text-sakura-600 dark:text-sakura-400 mb-2 flex items-center gap-1.5">
+              📅 Edit Anniversary Date
+            </h3>
+            <p className="text-xs text-slate-500 mb-4">
+              Update the start date of your relationship. Countdowns and counter will sync automatically for both!
+            </p>
+
+            <form onSubmit={handleSaveDate} className="flex flex-col gap-4">
+              <input
+                type="date"
+                value={newDate}
+                onChange={(e) => setNewDate(e.target.value)}
+                className="glass-input text-sm"
+                required
+              />
+              
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  onClick={() => setShowDatePicker(false)}
+                  className="btn-cozy py-2 px-4 rounded-xl flex-1 text-xs"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="btn-sakura py-2 px-4 rounded-xl flex-1 text-xs"
+                >
+                  Save Date
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
       
     </div>
   );
