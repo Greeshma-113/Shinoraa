@@ -1,0 +1,89 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* Cute Sakura custom cursor */
+  html {
+    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' style='font-size: 24px;'><text y='24'>🌸</text></svg>"), auto;
+  }
+  
+  a, button, select, input, textarea, [role="button"] {
+    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' style='font-size: 24px;'><text y='24'>✨</text></svg>"), pointer;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: rgba(255, 193, 204, 0.15);
+    border-radius: 99px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255, 85, 121, 0.4);
+    border-radius: 99px;
+    border: 2px solid transparent;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 85, 121, 0.7);
+  }
+}
+
+@layer components {
+  /* Glassmorphism cards */
+  .glass-panel {
+    @apply bg-white/60 dark:bg-[#1E1B2B]/60 backdrop-blur-lg border border-white/40 dark:border-white/10 shadow-lg shadow-pink-100/20 dark:shadow-black/35 rounded-3xl transition-all duration-300;
+  }
+  
+  .glass-card {
+    @apply bg-white/70 dark:bg-[#252136]/70 backdrop-blur-md border border-white/45 dark:border-white/10 shadow-md shadow-pink-100/10 dark:shadow-black/20 rounded-2xl transition-all duration-300;
+  }
+  
+  .glass-card-hover {
+    @apply hover:shadow-lg hover:shadow-sakura-200/30 dark:hover:shadow-sakura-500/10 hover:-translate-y-1 hover:border-sakura-300/50 dark:hover:border-sakura-500/40;
+  }
+
+  .glass-input {
+    @apply bg-white/40 dark:bg-[#1E1B2B]/40 border border-pink-200/60 dark:border-slate-800 focus:border-sakura-400 focus:dark:border-cozy-darkAccent outline-none px-4 py-3 rounded-2xl backdrop-blur-md transition-all text-slate-800 dark:text-slate-100 placeholder:text-slate-400/80 focus:ring-2 focus:ring-sakura-100 focus:dark:ring-sakura-500/20;
+  }
+
+  .btn-sakura {
+    @apply bg-gradient-to-r from-sakura-400 to-sakura-500 hover:from-sakura-500 hover:to-sakura-600 text-white font-semibold py-3 px-6 rounded-2xl shadow-lg shadow-sakura-200/40 dark:shadow-sakura-600/20 active:scale-95 transition-all duration-150 flex items-center justify-center gap-2;
+  }
+
+  .btn-cozy {
+    @apply bg-white/80 dark:bg-cozy-darkCard hover:bg-sakura-50 dark:hover:bg-slate-800 border border-pink-100 dark:border-slate-800 text-slate-700 dark:text-slate-200 font-semibold py-3 px-6 rounded-2xl active:scale-95 transition-all duration-150 flex items-center justify-center gap-2;
+  }
+
+  .text-neon-glow {
+    text-shadow: 0 0 10px rgba(255, 85, 121, 0.4), 0 0 20px rgba(255, 85, 121, 0.2);
+  }
+  
+  .text-neon-dark {
+    text-shadow: 0 0 8px rgba(255, 121, 198, 0.6), 0 0 15px rgba(255, 121, 198, 0.3);
+  }
+}
+
+/* Custom styling for standard slider/range components */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+}
+input[type="range"]::-webkit-slider-runnable-track {
+  background: rgba(255, 193, 204, 0.3);
+  height: 6px;
+  border-radius: 99px;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  margin-top: -5px;
+  background-color: #FF5579;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
