@@ -1,5 +1,4 @@
 {
-  "cleanUrls": true,
   "rewrites": [
     {
       "source": "/api/:path*",
@@ -10,7 +9,7 @@
       "destination": "https://shinoraa-api.onrender.com/socket.io/:path*"
     },
     {
-      "source": "/((?!api|socket.io).*)*",
+      "source": "/:path*",
       "destination": "/index.html"
     }
   ]
